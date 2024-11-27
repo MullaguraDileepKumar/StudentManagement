@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <Folder Include="Core\Constants\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

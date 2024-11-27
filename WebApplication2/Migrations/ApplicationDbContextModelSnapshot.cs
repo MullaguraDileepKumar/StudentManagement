@@ -19,20 +19,40 @@ namespace WebApplication2.Migrations
                 .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AspNetRoles");
+                });
+
             modelBuilder.Entity("WebApplication2.Core.Model.Attendance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<double>("Percentage")
+                    b.Property<double>("AttendancePercentage")
                         .HasColumnType("double");
 
-                    b.Property<int>("SemesterId")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -126,17 +146,9 @@ namespace WebApplication2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("GradeDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<double>("GradeValue")
-                        .HasColumnType("double");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("GradeValue")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -152,9 +164,8 @@ namespace WebApplication2.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("StudentMarks")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("StudentMarks")
+                        .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
@@ -213,9 +224,8 @@ namespace WebApplication2.Migrations
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Grade")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("GradeId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
@@ -293,6 +303,9 @@ namespace WebApplication2.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
@@ -328,6 +341,9 @@ namespace WebApplication2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AttendanceId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CollegeId")
                         .HasColumnType("int");
 
@@ -336,6 +352,16 @@ namespace WebApplication2.Migrations
 
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("EnrollmentId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("datetime(6)");
@@ -357,12 +383,11 @@ namespace WebApplication2.Migrations
                     b.Property<long>("Salary")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

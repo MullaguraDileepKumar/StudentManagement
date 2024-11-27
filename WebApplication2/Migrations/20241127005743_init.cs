@@ -16,14 +16,29 @@ namespace WebApplication2.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: true),
+                    NormalizedName = table.Column<string>(type: "longtext", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Attendances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    SemesterId = table.Column<int>(type: "int", nullable: false),
-                    Percentage = table.Column<double>(type: "double", nullable: false)
+                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<string>(type: "longtext", nullable: false),
+                    AttendancePercentage = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,10 +106,7 @@ namespace WebApplication2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
-                    GradeValue = table.Column<double>(type: "double", nullable: false),
-                    GradeDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    GradeValue = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,7 +122,7 @@ namespace WebApplication2.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
-                    StudentMarks = table.Column<string>(type: "longtext", nullable: false)
+                    StudentMarks = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,7 +162,7 @@ namespace WebApplication2.Migrations
                     AttendanceId = table.Column<int>(type: "int", nullable: false),
                     StatusId = table.Column<string>(type: "longtext", nullable: false),
                     EnrollmentId = table.Column<int>(type: "int", nullable: false),
-                    Grade = table.Column<string>(type: "longtext", nullable: false),
+                    GradeId = table.Column<int>(type: "int", nullable: false),
                     Percentage = table.Column<double>(type: "double", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -203,6 +215,7 @@ namespace WebApplication2.Migrations
                     StudentId = table.Column<string>(type: "longtext", nullable: false),
                     CollegeId = table.Column<int>(type: "int", nullable: false),
                     SemesterId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -222,11 +235,15 @@ namespace WebApplication2.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     DOB = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    email = table.Column<string>(type: "longtext", nullable: false),
+                    Email = table.Column<string>(type: "longtext", nullable: false),
                     PhoneNumber = table.Column<string>(type: "longtext", nullable: false),
                     HireDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Salary = table.Column<long>(type: "bigint", nullable: false),
                     CollegeId = table.Column<int>(type: "int", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
+                    AttendanceId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    EnrollmentId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -257,6 +274,9 @@ namespace WebApplication2.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
             migrationBuilder.DropTable(
                 name: "Attendances");
 
