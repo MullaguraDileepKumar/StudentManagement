@@ -11,7 +11,7 @@ using WebApplication2.Core.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241127005743_init")]
+    [Migration("20241128003005_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -135,7 +135,10 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -321,10 +324,6 @@ namespace WebApplication2.Migrations
 
                     b.Property<int>("SemesterId")
                         .HasColumnType("int");
-
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("SubjectCode")
                         .IsRequired()

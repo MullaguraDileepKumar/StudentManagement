@@ -4,6 +4,7 @@ using WebApplication2.Core.Model;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.Core.Data;
 using Microsoft.IdentityModel.Tokens;
+using WebApplication2.Core.Constants;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApplication2.Controllers
@@ -16,7 +17,7 @@ namespace WebApplication2.Controllers
         [HttpGet("GetEnrollByStudent/{studentId}")]
         public async Task<ActionResult<Enrollment>> GetEnrollmentAsync(int studentId)
         {
-            var enrollment = await _context.Enrollments.FirstOrDefaultAsync(e => e.StudentId == studentId);
+            var enrollment = await _context.Enrollments.FirstOrDefaultAsync(e => e.PersonId == studentId && e.RoleType == RoleTypes.STUDENT);
             return enrollment != null ? Ok(enrollment) : NotFound(enrollment);
         }
 
@@ -27,23 +28,23 @@ namespace WebApplication2.Controllers
             return !(enrollments.Any()) ? NotFound("No Enrollements") : Ok(enrollments);
         }
 
-        [HttpPost("AddEnrollement")]
+        [HttpPost("AddStudentEnrollement")]
         public async Task<IActionResult> AddEnrollment([FromBody] Enrollment enrollment)
         {
-            var newEnroll = await _context.Enrollments.AnyAsync(e => e.StudentId == enrollment.StudentId);
+            var newEnroll = await _context.Enrollments.AnyAsync(e => e.PersonId == enrollment.PersonId && e.RoleType == RoleTypes.STUDENT);
             if (newEnroll)
             {
-                return BadRequest($"{enrollment.StudentId} already Enrolled");
+                return BadRequest($"{enrollment.PersonId} already Enrolled");
             }
             _context.Enrollments.Add(enrollment);
             await _context.SaveChangesAsync();
             return CreatedAtAction("New Enrollment", new {enrollment.Id });
         }
 
-        [HttpPut("EditEnrollment/{studentId}")]
+        [HttpPut("EditStudentEnrollment/{studentId}")]
         public async Task<ActionResult> EditEnrollment(int studentId,[FromBody]Enrollment enroll)
         {
-            var edit = await _context.Enrollments.FirstOrDefaultAsync(e => e.StudentId == studentId);
+            var edit = await _context.Enrollments.FirstOrDefaultAsync(e => e.PersonId == studentId && e.RoleType == RoleTypes.STUDENT);
             if (edit != null)
             {
                 edit.EnrollmentDate = enroll.EnrollmentDate;
@@ -54,10 +55,10 @@ namespace WebApplication2.Controllers
             return NotFound($"{studentId}, Not Found");
         }
        
-        [HttpDelete("DeleteEnrollment{studentId}")]
+        [HttpDelete("DeleteStudentEnrollment{studentId}")]
         public async Task<IActionResult> DeleteEnrollment(int studentId)
         {
-            var delete = await _context.Enrollments.FirstOrDefaultAsync(en => en.StudentId == studentId);
+            var delete = await _context.Enrollments.FirstOrDefaultAsync(en => en.PersonId == studentId && en.RoleType == RoleTypes.STUDENT);
             if (delete != null)
             {
                 

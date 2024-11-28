@@ -102,9 +102,12 @@ namespace WebApplication2.Core.Services
                                           where c.Id == id
                                           select new StudentView
                                           {
-                                              Id = s.Id,
-                                              Name = s.Name,
-                                              PhoneNumber = s.PhoneNumber,
+                                              Student = new Student
+                                              {
+                                                  Id = s.Id,
+                                                  Name = s.Name,
+                                                  PhoneNumber = s.PhoneNumber,
+                                              },
                                               College = new College
                                               {
                                                   Id = c.Id,

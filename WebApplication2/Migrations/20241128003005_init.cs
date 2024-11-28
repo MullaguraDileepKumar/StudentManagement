@@ -90,7 +90,8 @@ namespace WebApplication2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    RoleType = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     EnrollmentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
@@ -212,7 +213,6 @@ namespace WebApplication2.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     SubjectCode = table.Column<string>(type: "longtext", nullable: false),
-                    StudentId = table.Column<string>(type: "longtext", nullable: false),
                     CollegeId = table.Column<int>(type: "int", nullable: false),
                     SemesterId = table.Column<int>(type: "int", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),

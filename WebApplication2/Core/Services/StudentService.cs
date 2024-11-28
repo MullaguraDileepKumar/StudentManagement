@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApplication2.Core.Constants;
 using WebApplication2.Core.Data;
 using WebApplication2.Core.Dtos;
 using WebApplication2.Core.Interfaces;
@@ -23,12 +24,18 @@ namespace WebApplication2.Core.Services
                 var student = from s in _context.Students
                               join c in _context.College
                               on s.CollegeId equals c.Id
-                              where s.Id == id
+                              join e in _context.Enrollments
+                              on s.Id equals e.PersonId
+                              where s.Id == id && (s.Id == e.PersonId && e.RoleType == RoleTypes.STUDENT)
                               select new StudentView
                               {
-                                  Id = s.Id,
-                                  Name = s.Name,
-                                  PhoneNumber = s.PhoneNumber,
+                                  Student = new Student 
+                                  {
+                                      Id = s.Id,
+                                      Name = s.Name,
+                                      PhoneNumber = s.PhoneNumber,
+                                      EnrollmentId = e.Id,
+                                  },
                                   College = new College
                                   {
                                       Id = c.Id,
@@ -36,7 +43,10 @@ namespace WebApplication2.Core.Services
                                       Address = c.Address,
                                   }
                               };
-                return student.AsQueryable();
+                if (student != null ) 
+                    return student.AsQueryable();
+                else
+                    return new StudentView[0].AsQueryable();
             }
             catch (Exception ex)
             {

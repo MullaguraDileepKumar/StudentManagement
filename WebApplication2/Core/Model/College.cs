@@ -12,6 +12,7 @@ namespace WebApplication2.Core.Model
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string Name { get; set; }
+        [Required]
 
         [Column(TypeName = "nvarchar(100)")]
         public string Address { get; set; }

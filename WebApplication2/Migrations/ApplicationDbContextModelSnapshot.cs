@@ -132,7 +132,10 @@ namespace WebApplication2.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -318,10 +321,6 @@ namespace WebApplication2.Migrations
 
                     b.Property<int>("SemesterId")
                         .HasColumnType("int");
-
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("SubjectCode")
                         .IsRequired()
