@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WebApplication2.Core.Data;
 using WebApplication2.Core.Dtos;
-using WebApplication2.Core.Dtos.General;
 using WebApplication2.Core.Interfaces;
 using WebApplication2.Core.Model;
 
 namespace WebApplication2.Core.Services
 {
-    public class CollegeService(ApplicationDbContext _context) : ICollegeService
+    public class CollegeService(ApplicationDbContext _context, ILogger<CollegeService> _logger) : ICollegeService
     {
         public async Task<College> AddCollege(College college)
         {
@@ -16,12 +14,13 @@ namespace WebApplication2.Core.Services
             {
                     await _context.College.AddAsync(college);
                     await _context.SaveChangesAsync();
+                _logger.LogInformation("New College is Added Name: ",college.Name);
                     return college;
             }
             catch(Exception ex){
-                throw  ex;
+                _logger.LogError(ex,"Error during the adding the college");
+                throw;
             }
-
         }
 
         public async Task<IEnumerable<College>> GetCollegeList()
@@ -35,7 +34,7 @@ namespace WebApplication2.Core.Services
                     Address = q.Address,
                     EstablishedYear = q.EstablishedYear,
                     }).ToListAsync();
-                
+                _logger.LogInformation("Retriived the College List");
                 return collegeList;
             }
             catch (Exception ex)
@@ -63,14 +62,19 @@ namespace WebApplication2.Core.Services
                 var prevCollege = await _context.College.FirstOrDefaultAsync(c => c.Id == id);
                 if (prevCollege != null)
                 {
-                    prevCollege.Name = college.Name;
-                    prevCollege.Address = college.Address;
-                    prevCollege.EstablishedYear = college.EstablishedYear;
+                    prevCollege.Name = college.Name == null || college.Name == "string" ? prevCollege.Name : college.Name;
+                    prevCollege.Address = college.Address == null || college.Address == "string" ? prevCollege.Address : college.Address;
+                    prevCollege.UpdatedAt = DateTime.Now;
                     await _context.SaveChangesAsync();
+                    _logger.LogInformation($"college got updated Id : {id} , College : {college.Name}");
                 }
                 return prevCollege;
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex) 
+            { 
+                _logger.LogError(ex, "Error occured during editing the college");
+                throw; 
+            }
         }
 
         
@@ -82,15 +86,20 @@ namespace WebApplication2.Core.Services
                 var college = await _context.College.FirstOrDefaultAsync(m => m.Id == id);
                 if (college != null)
                 {
-                    college.IsActive = false;
-                    college.IsDeleted = true;
-                    //_context.College.Remove(college);
+                    /*college.IsActive = false;
+                    college.IsDeleted = true;*/
+                    _context.College.Remove(college);
                     await _context.SaveChangesAsync();
+                    _logger.LogInformation("College : ",college.Name ,$"Id : {id} got deleted");
                     result = true;
                 }
                 return result;
             }
-            catch(Exception ex){ throw ex; }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error occured during deleting the college");
+                throw;
+            }
         }
         public async Task<IEnumerable<StudentView>> GetStudentsInCollege(int id)
         {

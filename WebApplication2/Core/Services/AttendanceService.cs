@@ -6,7 +6,7 @@ using WebApplication2.Core.Model;
 
 namespace WebApplication2.Core.Services
 {
-    public class AttendanceService(ApplicationDbContext _context) : IAttendanceService
+    public class AttendanceService(ApplicationDbContext _context,ILogger<AttendanceService> _logger) : IAttendanceService
     {
         public async Task<Attendance?> GetAttendance(int id)
         {
@@ -23,11 +23,34 @@ namespace WebApplication2.Core.Services
         {
             try
             {
-                await _context.AddAsync(attend);
-                await _context.SaveChangesAsync();
-                return attend;
+                var attendanceList = await _context.Attendances.Where(a => a.PersonId == attend.PersonId).ToListAsync();
+               if (attendanceList.Count > 0)
+                {
+                    foreach (var attendance in attendanceList)
+                    {
+                        if (attendance.RoleId == attend.RoleId)
+                        {
+                            _context.Attendances.Update(attend);
+                            await _context.SaveChangesAsync();
+                            _logger.LogInformation("Updated the Person attendance from add attendance",attend.PersonId ,"RoleId: ",attend.RoleId);
+                        }
+                    }
+                    return attend;
+                }
+               else
+                {
+                    await _context.AddAsync(attend);
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("New attendance added :", attend.PersonId, "RoleId: ", attend.RoleId);
+                    return attend;
+                }
+                
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,"Error during add attendance to Person: ",attend.PersonId ,"Role :",attend.RoleId);
+                throw;
+            }
         }
         public async Task<Attendance> EditAttendance(int personId, [FromBody] Attendance attend)
         {
@@ -37,7 +60,7 @@ namespace WebApplication2.Core.Services
                 if (editedAttendance != null)
                 {
                     editedAttendance.AttendancePercentage = attend.AttendancePercentage;
-                     _context.Update(editedAttendance);
+                     _context.Attendances.Update(editedAttendance);
                     await _context.SaveChangesAsync();
                 }
                 return editedAttendance;
@@ -50,7 +73,7 @@ namespace WebApplication2.Core.Services
             var record = await _context.Attendances.FirstOrDefaultAsync(a => a.PersonId == personId && a.RoleId == roleId);
             if(record != null)
             {
-                _context.Remove(record);
+                _context.Attendances.Remove(record);
                 await _context.SaveChangesAsync();
                 result = true;
             }

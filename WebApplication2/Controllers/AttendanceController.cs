@@ -2,6 +2,7 @@
 using WebApplication2.Core.Interfaces;
 using WebApplication2.Core.Model;
 
+
 namespace WebApplication2.Controllers
 {
     [Route("api/[controller]")]
@@ -34,7 +35,7 @@ namespace WebApplication2.Controllers
         public async Task<ActionResult<Attendance>> EditAttendance(int personId, [FromBody] Attendance attend)
         {
             var response = await _attendanceService.EditAttendance(personId, attend);
-            return Ok(response);
+            return response != null ? Ok(response) :NotFound();
         }
        
         [HttpDelete("DeleteAttendance")]

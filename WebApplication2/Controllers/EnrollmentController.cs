@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Core.Interfaces;
-using WebApplication2.Core.Model;
 using Microsoft.EntityFrameworkCore;
-using WebApplication2.Core.Data;
-using Microsoft.IdentityModel.Tokens;
 using WebApplication2.Core.Constants;
+using WebApplication2.Core.Data;
+using WebApplication2.Core.Model;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApplication2.Controllers
@@ -44,15 +42,21 @@ namespace WebApplication2.Controllers
         [HttpPut("EditStudentEnrollment/{studentId}")]
         public async Task<ActionResult> EditEnrollment(int studentId,[FromBody]Enrollment enroll)
         {
-            var edit = await _context.Enrollments.FirstOrDefaultAsync(e => e.PersonId == studentId && e.RoleType == RoleTypes.STUDENT);
-            if (edit != null)
+            try
             {
-                edit.EnrollmentDate = enroll.EnrollmentDate;
-                 _context.Update(edit);
-                await _context.SaveChangesAsync();
-                return Ok(edit);
+                var edit = await _context.Enrollments.FirstOrDefaultAsync(e => e.PersonId == studentId && e.RoleType == RoleTypes.STUDENT);
+                if (edit != null)
+                {
+                    edit.EnrollmentDate = enroll.EnrollmentDate;
+                    _context.Enrollments.Update(edit);
+                    await _context.SaveChangesAsync();
+                    return Ok(edit);
+                }
+                return NotFound($"{studentId}, Not Found");
             }
-            return NotFound($"{studentId}, Not Found");
+            catch (Exception ex) {
+                throw ex;
+            }
         }
        
         [HttpDelete("DeleteStudentEnrollment{studentId}")]
@@ -62,7 +66,7 @@ namespace WebApplication2.Controllers
             if (delete != null)
             {
                 
-                _context.Update(delete);
+                _context.Enrollments.Remove(delete);
                 await _context.SaveChangesAsync();
                 return Ok($"{studentId} Enrollment Deleted ");
             }

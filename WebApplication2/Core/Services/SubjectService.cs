@@ -33,6 +33,8 @@ namespace WebApplication2.Core.Services
                         Name = q.Name,
                         SubjectCode = q.SubjectCode,
                         CollegeId = q.CollegeId,
+                        SemesterId = q.SemesterId,
+                        DepartmentId = q.DepartmentId,
                     }).ToListAsync();
 
                 return subjectList;

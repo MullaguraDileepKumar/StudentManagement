@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication2.Core.Constants;
 using WebApplication2.Core.Data;
 using WebApplication2.Core.Dtos;
 using WebApplication2.Core.Interfaces;
@@ -31,6 +32,7 @@ namespace WebApplication2.Controllers
         {
             if (student != null)
             {
+                //student.StatusId = StudentStatusEnums.ACTIVE;
                 var response = await _studentService.AddStudent(student);
                 return Ok(response);
             }

@@ -43,7 +43,6 @@ namespace WebApplication2.Controllers
                     return Ok(collegeData);
                 else
                     return NotFound("College Not Found");
-
             }
             return BadRequest();
         }
@@ -73,14 +72,18 @@ namespace WebApplication2.Controllers
         [HttpDelete("DeleteCollege/{id}")]
         public async Task<IActionResult> DeleteCollege(int id)
         {
-            if(id > 0)
+            try
             {
-                bool response = await _collegeService.DeleteCollege(id);
-                if(response)
-                    return Ok("College Deleted");
-                else
-                    return NotFound("No College Found");
+                if (id > 0)
+                {
+                    bool response = await _collegeService.DeleteCollege(id);
+                    if (response)
+                        return Ok("College Deleted");
+                    else
+                        return NotFound("No College Found");
+                }
             }
+            catch (Exception ex) { throw ex; }
             return BadRequest();
         }
 

@@ -27,18 +27,19 @@ namespace WebApplication2.Controllers
             var grades = await _context.Grades.ToListAsync();
             return !(grades.Any()) ? NotFound("No grades") : Ok(grades);
         }
-
-        [HttpPost("AddGrade")]
+        
+        [HttpPost]
+        [Route("AddGrade")]
         public async Task<IActionResult> AddGrade([FromBody] Grade grade)
         {
             var newGrade = await _context.Grades.AnyAsync(e => e.GradeValue == grade.GradeValue);
             if (newGrade)
             {
-                return BadRequest($"{grade.Id} grade already Exist");
+                return BadRequest("grade already Exist");
             }
             _context.Grades.Add(grade);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("New Grade", new { grade.Id });
+            return Ok("New Grade created");
         }
 
         [HttpPut("EditStudentGrade/{studentId}/{gradeId}")]
@@ -62,22 +63,29 @@ namespace WebApplication2.Controllers
         [HttpDelete("DeleteGrade{gradeId}")]
         public async Task<IActionResult> DeleteGrade(int gradeId)
         {
-            var deleteGrade = await _context.Grades.FirstOrDefaultAsync(en => en.Id == gradeId);
-            if(deleteGrade != null)
+            try
             {
-                var isGradeFoundInStudent = await _context.Students.AnyAsync(en => en.GradeId == gradeId);
-                if (isGradeFoundInStudent)
+                var deleteGrade = await _context.Grades.FirstOrDefaultAsync(en => en.Id == gradeId);
+                if (deleteGrade != null)
                 {
-                    return BadRequest("Grades Associated with Student");
+                    var isGradeFoundInStudent = await _context.Students.AnyAsync(en => en.GradeId == gradeId);
+                    if (isGradeFoundInStudent)
+                    {
+                        return BadRequest("Grades Associated with Student");
+                    }
+                    else
+                    {
+                        _context.Grades.Remove(deleteGrade);
+                        await _context.SaveChangesAsync();
+                        return Ok("Grade Deleted");
+                    }
                 }
-                else
-                {
-                    _context.Remove(deleteGrade);
-                    await _context.SaveChangesAsync();
-                    return Ok("Grade Deleted");
-                }
+                return NotFound($"{gradeId}, Not Found");
             }
-            return NotFound($"{gradeId}, Not Found");
+            catch (Exception ex)
+            {
+                return StatusCode(500,ex.Message);
+            }
         }
     }
 }

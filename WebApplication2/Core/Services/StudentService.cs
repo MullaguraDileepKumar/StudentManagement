@@ -8,7 +8,7 @@ using WebApplication2.Core.Model;
 
 namespace WebApplication2.Core.Services
 {
-    public class StudentService(ApplicationDbContext _context):IStudentService
+    public class StudentService(ApplicationDbContext _context,ILogger<StudentService> _logger):IStudentService
     {
         public async Task<IEnumerable<Student>> GetAllStudents()
         {
@@ -50,7 +50,8 @@ namespace WebApplication2.Core.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                _logger.LogError(ex, "Error during Getting Student Details");
+                throw;
             }
         }
 

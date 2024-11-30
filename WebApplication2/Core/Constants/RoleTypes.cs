@@ -2,9 +2,9 @@
 {
     public enum RoleTypes
     {
-        ADMIN,
-        USER,
-        STUDENT,
-        TEACHER,
+        ADMIN = 0,
+        USER = 1,
+        STUDENT = 2,
+        TEACHER = 3,
     }
 }

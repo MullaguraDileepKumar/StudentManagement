@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication2.Core.Services
 {
-    public class DepartmentService(ApplicationDbContext _context) : IDepartmentService
+    public class DepartmentService(ApplicationDbContext _context,ILogger<DepartmentService> _logger) : IDepartmentService
     {
         public async Task<Department?> GetDepartment(int id)
         {
@@ -40,22 +40,31 @@ namespace WebApplication2.Core.Services
         }
         public async Task<Department> EditDepartment(int id,Department dept)
         {
-            var editedDept = await _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
-            if(editedDept != null)
+            try
             {
-                editedDept.Name = dept.Name;
-                await _context.SaveChangesAsync();
+                var editedDept = await _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
+                if (editedDept != null)
+                {
+                    editedDept.Name = dept.Name;
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Updated the Department Id: ", id, "Department: ", dept.Name);
+                    return editedDept;
+                }
                 return editedDept;
             }
-            return editedDept;
+            catch(Exception ex) 
+            {
+                _logger.LogError("Error occured during updating department",ex);
+                throw;
+            }
         }
         public async Task<bool> DeleteDepartment(int id)
         {
             bool result = false;
-            var record =  _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
+            var record = await  _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
            if (record != null)
             {
-                _context.Remove(record);
+                _context.Departments.Remove(record);
                 result = true;
             }
             await _context.SaveChangesAsync();

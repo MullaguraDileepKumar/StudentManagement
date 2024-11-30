@@ -22,6 +22,8 @@ namespace WebApplication2.Core.Services
                                   {
                                       Id = sem.Id,
                                       Name = sem.Name,
+                                      StartDate = sem.StartDate,
+                                      EndDate = sem.EndDate,
                                   }).ToListAsync();
                 return list;
             }
@@ -32,6 +34,7 @@ namespace WebApplication2.Core.Services
             try
             {
                 await _context.Semesters.AddAsync(sem);
+                await _context.SaveChangesAsync();
                 return sem;
             }
             catch (Exception ex) { throw ex; }
@@ -50,10 +53,10 @@ namespace WebApplication2.Core.Services
         public async Task<bool> DeleteSemester(int id)
         {
             bool result = false;
-            var record = _context.Semesters.FirstOrDefaultAsync(d => d.Id == id);
+            var record =await  _context.Semesters.FirstOrDefaultAsync(d => d.Id == id);
             if (record != null)
             {
-                _context.Remove(record);
+                _context.Semesters.Remove(record);
                 result = true;
             }
             await _context.SaveChangesAsync();
