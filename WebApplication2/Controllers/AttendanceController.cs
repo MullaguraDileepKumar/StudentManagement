@@ -24,7 +24,7 @@ namespace WebApplication2.Controllers
             return attendanceList;
         }
 
-        [HttpPost("AddAttendance{id}")]
+        [HttpPost("AddAttendance")]
         public async Task<ActionResult<Attendance>> AddAttendance([FromBody] Attendance attend)
         {
             var newAttendance = await _attendanceService.AddAttendance(attend);

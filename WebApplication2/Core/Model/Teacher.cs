@@ -14,6 +14,8 @@ namespace WebApplication2.Core.Model
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
+        public char Gender { get; set; }
+        [Required]
         public DateTime HireDate { get; set; }
         public long Salary { get; set; }
         [Required]
@@ -21,11 +23,6 @@ namespace WebApplication2.Core.Model
         [Required]
         public int SubjectId { get; set; }
         [Required]
-        public int AttendanceId { get; set; }
-        [Required]
         public int DepartmentId { get; set; }
-        [Required]
-        public int EnrollmentId { get; set; }
-
     }
 }

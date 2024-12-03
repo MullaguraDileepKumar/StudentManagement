@@ -16,6 +16,7 @@ namespace WebApplication2.Core.Config
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<ISemesterService, SemesterService>();
+            services.AddScoped<IStudentSubjectService, StudentSubjectService>();
 
             return services;
         }

@@ -28,11 +28,11 @@ namespace WebApplication2.Core.Services
                 {
                     foreach (var attendance in attendanceList)
                     {
-                        if (attendance.RoleId == attend.RoleId)
+                        if (attendance.Role == attend.Role)
                         {
                             _context.Attendances.Update(attend);
                             await _context.SaveChangesAsync();
-                            _logger.LogInformation("Updated the Person attendance from add attendance",attend.PersonId ,"RoleId: ",attend.RoleId);
+                            _logger.LogInformation("Updated the Person attendance from add attendance",attend.PersonId ,"RoleId: ",attend.Role);
                         }
                     }
                     return attend;
@@ -41,14 +41,14 @@ namespace WebApplication2.Core.Services
                 {
                     await _context.AddAsync(attend);
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation("New attendance added :", attend.PersonId, "RoleId: ", attend.RoleId);
+                    _logger.LogInformation("New attendance added :", attend.PersonId, "RoleId: ", attend.Role);
                     return attend;
                 }
                 
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,"Error during add attendance to Person: ",attend.PersonId ,"Role :",attend.RoleId);
+                _logger.LogError(ex,"Error during add attendance to Person: ",attend.PersonId ,"Role :",attend.Role);
                 throw;
             }
         }
@@ -56,7 +56,7 @@ namespace WebApplication2.Core.Services
         {
             try
             {
-                var editedAttendance = await _context.Attendances.FirstOrDefaultAsync(a => a.PersonId == personId && a.RoleId == attend.RoleId);
+                var editedAttendance = await _context.Attendances.FirstOrDefaultAsync(a => a.PersonId == personId && a.Role == attend.Role);
                 if (editedAttendance != null)
                 {
                     editedAttendance.AttendancePercentage = attend.AttendancePercentage;
@@ -70,7 +70,7 @@ namespace WebApplication2.Core.Services
         public async Task<bool> DeleteAttendance(int personId, string roleId)
         {
             bool result = false;
-            var record = await _context.Attendances.FirstOrDefaultAsync(a => a.PersonId == personId && a.RoleId == roleId);
+            var record = await _context.Attendances.FirstOrDefaultAsync(a => a.PersonId == personId && a.Role == roleId);
             if(record != null)
             {
                 _context.Attendances.Remove(record);

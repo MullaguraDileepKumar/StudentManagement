@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WebApplication2.Core.Constants;
 using WebApplication2.Core.Data;
 using WebApplication2.Core.Dtos;
@@ -26,6 +28,12 @@ namespace WebApplication2.Core.Services
                               on s.CollegeId equals c.Id
                               join e in _context.Enrollments
                               on s.Id equals e.PersonId
+                              join t in _context.Teachers
+                              on s.DepartmentId equals t.DepartmentId
+                              join d in _context.Departments
+                              on s.DepartmentId equals d.Id
+                              join sm in _context.Semesters
+                              on s.SemesterId equals sm.Id
                               where s.Id == id && (s.Id == e.PersonId && e.RoleType == RoleTypes.STUDENT)
                               select new StudentView
                               {
@@ -34,13 +42,29 @@ namespace WebApplication2.Core.Services
                                       Id = s.Id,
                                       Name = s.Name,
                                       PhoneNumber = s.PhoneNumber,
-                                      EnrollmentId = e.Id,
                                   },
                                   College = new College
                                   {
                                       Id = c.Id,
                                       Name = c.Name,
                                       Address = c.Address,
+                                  },
+                                  Teacher = new Teacher
+                                  {
+                                      Name = t.Name,
+                                      PhoneNumber= t.PhoneNumber,
+                                      DOB = t.DOB,
+                                      HireDate = t.HireDate,
+                                  },
+                                  Department = new Department
+                                  {
+                                      Id = d.Id,
+                                      Name = d.Name,
+                                  },
+                                  Semester = new Semester
+                                  {
+                                      Id = sm.Id,
+                                      Name = sm.Name,
                                   }
                               };
                 if (student != null ) 
@@ -73,13 +97,17 @@ namespace WebApplication2.Core.Services
         }*/
 
         
-        public async Task<Student> AddStudent(Student student)
+        public async Task<Student?> AddStudent(Student student)
         {
             try
             {
-                await _context.Students.AddAsync(student);
-                await _context.SaveChangesAsync();
-                return student;
+                if (!(student.PhoneNumber.IsNullOrEmpty() || student.Name.IsNullOrEmpty()))
+                {
+                    await _context.Students.AddAsync(student);
+                    await _context.SaveChangesAsync();
+                    return student;
+                }
+                return null;
             }
             catch (Exception ex) { throw ex; }
         }

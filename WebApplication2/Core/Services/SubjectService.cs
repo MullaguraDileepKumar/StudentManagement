@@ -83,7 +83,9 @@ namespace WebApplication2.Core.Services
                 var subject = await _context.College.FirstOrDefaultAsync(m => m.Id == id);
                 if (subject != null)
                 {
-                    _context.College.Remove(subject);
+                    subject.IsActive = false;
+                    subject.IsDeleted = true;
+                    //_context.College.Remove(subject);
                     await _context.SaveChangesAsync();
                     result = true;
                 }

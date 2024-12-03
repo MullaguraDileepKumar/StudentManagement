@@ -9,6 +9,7 @@ namespace WebApplication2.Core.Dtos
         public Department Department { get; set; }
         public Semester Semester { get; set; }
         public Marks Marks { get; set; }
+        public Teacher Teacher { get; set; }
 
     }
 }

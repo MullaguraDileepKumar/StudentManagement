@@ -8,7 +8,7 @@ namespace WebApplication2.Core.Model
         [Required]
         public int PersonId { get; set; }
         [Required]
-        public string RoleId {  get; set; } = string.Empty;
+        public string Role {  get; set; } = string.Empty;
         [Required]
         public double AttendancePercentage { get; set; } = 0;
     }

@@ -8,7 +8,7 @@ namespace WebApplication2.Core.Interfaces
     {
         Task<IEnumerable<Student>> GetAllStudents();
         IQueryable<StudentView> GetStudentDetail(int id);
-        Task<Student> AddStudent(Student student);
+        Task<Student?> AddStudent(Student student);
         Task<Student?> Editstudent(int? id, [FromBody] Student student);
         Task<bool> DeleteStudent(int id);
     }

@@ -18,10 +18,10 @@ namespace WebApplication2.Controllers
         }
 
         
-        [HttpGet("GetRole/{id}")]
-        public async Task<ActionResult<IdentityRole>> GetRole(string id)
+        [HttpGet("GetRole/{name}")]
+        public async Task<ActionResult<IdentityRole>> GetRole(string name)
         {
-                var roleData = await _roleService.GetRole(id);
+                var roleData = await _roleService.GetRole(name);
                 if (roleData != null)
                     return Ok(roleData);
                 else
@@ -34,26 +34,28 @@ namespace WebApplication2.Controllers
             if (role != null)
             {
                 var response = await _roleService.AddRole(role);
-                return Ok(response);
+                if (response != null)
+                    return Ok(response);
+                else return BadRequest($"{role.Name} Already exists");
             }
             return BadRequest();
         }
 
         [HttpPut("EditRole")]
-        public async Task<ActionResult<IdentityRole>> EditRole(string id, IdentityRole role)
+        public async Task<ActionResult<IdentityRole>> EditRole(string name, IdentityRole role)
         {
             if (role != null)
             {
-                var response = await _roleService.EditRole(id, role);
-                return Ok(response);
+                var response = await _roleService.EditRole(name, role);
+                return response != null ?  Ok(response) :  NotFound($"{name} No Role Found");
             }
             return BadRequest();
         }
 
-        [HttpDelete("DeleteRole/{id}")]
-        public async Task<IActionResult> DeleteRole(string id)
+        [HttpDelete("DeleteRole/{name}")]
+        public async Task<IActionResult> DeleteRole(string name)
         {
-                bool response = await _roleService.DeleteRole(id);
+                bool response = await _roleService.DeleteRole(name);
                 if (response)
                     return Ok("Role Deleted");
                 else

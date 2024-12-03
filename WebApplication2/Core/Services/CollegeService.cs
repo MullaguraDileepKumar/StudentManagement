@@ -27,6 +27,7 @@ namespace WebApplication2.Core.Services
         {
             try
             {
+                _logger.LogInformation("Retriived the College List");
                 var collegeList = await _context.College
                     .Select(q => new College { 
                     Id = q.Id,
@@ -34,7 +35,6 @@ namespace WebApplication2.Core.Services
                     Address = q.Address,
                     EstablishedYear = q.EstablishedYear,
                     }).ToListAsync();
-                _logger.LogInformation("Retriived the College List");
                 return collegeList;
             }
             catch (Exception ex)
@@ -86,9 +86,9 @@ namespace WebApplication2.Core.Services
                 var college = await _context.College.FirstOrDefaultAsync(m => m.Id == id);
                 if (college != null)
                 {
-                    /*college.IsActive = false;
-                    college.IsDeleted = true;*/
-                    _context.College.Remove(college);
+                    college.IsActive = false;
+                    college.IsDeleted = true;
+                    //_context.College.Remove(college);
                     await _context.SaveChangesAsync();
                     _logger.LogInformation("College : ",college.Name ,$"Id : {id} got deleted");
                     result = true;

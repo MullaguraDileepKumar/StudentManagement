@@ -37,7 +37,7 @@ namespace WebApplication2.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     PersonId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<string>(type: "longtext", nullable: false),
+                    Role = table.Column<string>(type: "longtext", nullable: false),
                     AttendancePercentage = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>

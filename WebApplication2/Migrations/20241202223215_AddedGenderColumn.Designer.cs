@@ -11,8 +11,8 @@ using WebApplication2.Core.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241128003005_init")]
-    partial class init
+    [Migration("20241202223215_AddedGenderColumn")]
+    partial class AddedGenderColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,7 @@ namespace WebApplication2.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RoleId")
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -208,9 +208,6 @@ namespace WebApplication2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AttendanceId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CollegeId")
                         .HasColumnType("int");
 
@@ -227,8 +224,9 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("EnrollmentId")
-                        .HasColumnType("int");
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("varchar(1)");
 
                     b.Property<int>("GradeId")
                         .HasColumnType("int");
@@ -364,6 +362,10 @@ namespace WebApplication2.Migrations
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("varchar(1)");
 
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("datetime(6)");

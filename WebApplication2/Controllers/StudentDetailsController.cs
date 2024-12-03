@@ -9,7 +9,7 @@ namespace WebApplication2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentDetailsController(IStudentService _studentService, ApplicationDbContext _context) : ControllerBase
+    public class StudentDetailsController(IStudentService _studentService) : ControllerBase
     {
 
         [HttpGet("GetAllStudents")]
@@ -34,7 +34,7 @@ namespace WebApplication2.Controllers
             {
                 //student.StatusId = StudentStatusEnums.ACTIVE;
                 var response = await _studentService.AddStudent(student);
-                return Ok(response);
+                return response != null ? Ok(response) : BadRequest("Please Fill Required fields");
             }
             return BadRequest();
         }
@@ -63,6 +63,8 @@ namespace WebApplication2.Controllers
             }
             return BadRequest();
         }
+
+
 
        /* [HttpPost("AddMarks")]
         public async Task<IActionResult> AddMarks(int id,[FromBody] MarksData marksData)

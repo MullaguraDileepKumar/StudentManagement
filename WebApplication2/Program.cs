@@ -1,45 +1,50 @@
 using Microsoft.EntityFrameworkCore;
-using NLog;
-using NLog.Extensions.Logging;
+using Serilog;
 using System.Text.Json.Serialization;
 using WebApplication2.Core.Config;
 using WebApplication2.Core.Data;
-internal class Program
-{
-    private static void Main(string[] args)
+
+
+var builder = WebApplication.CreateBuilder(args);
+
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()  // Set the minimum log level to Information
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)  // File logging with daily rolling
+    .CreateLogger();
+
+
+builder.Logging.ClearProviders();
+// Use Serilog as the logging provider
+builder.Host.UseSerilog();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
     {
 
-       
-        var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddControllers()
-            .AddJsonOptions(options =>
-            {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
-            });
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+          options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddServices();
 
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
-        builder.Services.AddServices();
+var app = builder.Build();
 
-        var app = builder.Build();
 
-        
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseHttpsRedirection();
-
-        app.UseAuthorization();
-
-        app.MapControllers();
-
-        app.Run();
-    }
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+
+app.MapControllers();
+app.Run();

@@ -21,18 +21,16 @@ namespace WebApplication2.Core.Model
         public DateTime DOB { get; set; }
         public string Email { get; set; }
         [Required]
+        public char Gender { get; set; }
+        [Required]
         public int CollegeId { get; set; }
         [Required]
         public int DepartmentId { get; set; }
         [Required]
         public int SemesterId { get; set; }
-        [Required]
-        public int AttendanceId { get; set; }
+       
         [Required]
         public string StatusId { get; set; }
-        [Required]
-        public int EnrollmentId { get; set; }
-        
         public int GradeId { get; set; }
         public double Percentage { get; set; }
     }

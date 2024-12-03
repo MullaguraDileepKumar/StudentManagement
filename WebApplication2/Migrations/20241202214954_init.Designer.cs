@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication2.Core.Data;
 
@@ -10,9 +11,11 @@ using WebApplication2.Core.Data;
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241202214954_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,6 +208,9 @@ namespace WebApplication2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AttendanceId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CollegeId")
                         .HasColumnType("int");
 
@@ -221,9 +227,8 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("varchar(1)");
+                    b.Property<int>("EnrollmentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("GradeId")
                         .HasColumnType("int");
@@ -338,6 +343,9 @@ namespace WebApplication2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AttendanceId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CollegeId")
                         .HasColumnType("int");
 
@@ -354,9 +362,8 @@ namespace WebApplication2.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("varchar(1)");
+                    b.Property<int>("EnrollmentId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("datetime(6)");

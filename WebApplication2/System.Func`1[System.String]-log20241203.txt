@@ -1,0 +1,41 @@
+2024-12-03 01:46:33.487 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2024-12-03 01:46:33.500 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/index.html - null null
+2024-12-03 01:46:33.510 +05:30 [INF] Hosting environment: Development
+2024-12-03 01:46:33.510 +05:30 [INF] Content root path: C:\Users\Dell\source\repos\WebApplication2\WebApplication2
+2024-12-03 01:46:33.681 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/index.html - 200 null text/html;charset=utf-8 184.4231ms
+2024-12-03 01:46:33.681 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2024-12-03 01:46:33.686 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 4.4106ms
+2024-12-03 01:46:33.703 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/_vs/browserLink - null null
+2024-12-03 01:46:33.727 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.884ms
+2024-12-03 01:46:33.761 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2024-12-03 01:46:33.844 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 82.4406ms
+2024-12-03 01:46:37.071 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/api/Colleges/GetAllColleges - null null
+2024-12-03 01:46:37.080 +05:30 [INF] Executing endpoint 'WebApplication2.Controllers.CollegesController.GetCollegesList (WebApplication2)'
+2024-12-03 01:46:37.093 +05:30 [INF] Route matched with {action = "GetCollegesList", controller = "Colleges"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Collections.Generic.IEnumerable`1[WebApplication2.Core.Model.College]] GetCollegesList() on controller WebApplication2.Controllers.CollegesController (WebApplication2).
+2024-12-03 01:46:37.517 +05:30 [INF] Retriived the College List
+2024-12-03 01:46:38.118 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `c`.`Id`, `c`.`Name`, `c`.`Address`, `c`.`EstablishedYear`
+FROM `College` AS `c`
+2024-12-03 01:46:38.132 +05:30 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[WebApplication2.Core.Model.College, WebApplication2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-12-03 01:46:38.144 +05:30 [INF] Executed action WebApplication2.Controllers.CollegesController.GetCollegesList (WebApplication2) in 1049.3087ms
+2024-12-03 01:46:38.145 +05:30 [INF] Executed endpoint 'WebApplication2.Controllers.CollegesController.GetCollegesList (WebApplication2)'
+2024-12-03 01:46:38.151 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/api/Colleges/GetAllColleges - 200 null application/json; charset=utf-8 1080.7768ms
+2024-12-03 01:47:01.753 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/index.html - null null
+2024-12-03 01:47:01.763 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/index.html - 200 null text/html;charset=utf-8 9.7438ms
+2024-12-03 01:47:01.772 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/_vs/browserLink - null null
+2024-12-03 01:47:01.772 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2024-12-03 01:47:01.772 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 0.6702ms
+2024-12-03 01:47:01.785 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/_vs/browserLink - 200 null text/javascript; charset=UTF-8 13.8598ms
+2024-12-03 01:47:01.851 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2024-12-03 01:47:01.872 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.8222ms
+2024-12-03 01:47:18.032 +05:30 [INF] Request starting HTTP/2 GET https://localhost:44300/api/Colleges/GetAllColleges - null null
+2024-12-03 01:47:18.034 +05:30 [INF] Executing endpoint 'WebApplication2.Controllers.CollegesController.GetCollegesList (WebApplication2)'
+2024-12-03 01:47:18.037 +05:30 [INF] Route matched with {action = "GetCollegesList", controller = "Colleges"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Collections.Generic.IEnumerable`1[WebApplication2.Core.Model.College]] GetCollegesList() on controller WebApplication2.Controllers.CollegesController (WebApplication2).
+2024-12-03 01:47:18.040 +05:30 [INF] Retriived the College List
+2024-12-03 01:47:18.063 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `c`.`Id`, `c`.`Name`, `c`.`Address`, `c`.`EstablishedYear`
+FROM `College` AS `c`
+2024-12-03 01:47:18.066 +05:30 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[WebApplication2.Core.Model.College, WebApplication2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2024-12-03 01:47:18.068 +05:30 [INF] Executed action WebApplication2.Controllers.CollegesController.GetCollegesList (WebApplication2) in 31.1569ms
+2024-12-03 01:47:18.069 +05:30 [INF] Executed endpoint 'WebApplication2.Controllers.CollegesController.GetCollegesList (WebApplication2)'
+2024-12-03 01:47:18.069 +05:30 [INF] Request finished HTTP/2 GET https://localhost:44300/api/Colleges/GetAllColleges - 200 null application/json; charset=utf-8 37.0121ms
